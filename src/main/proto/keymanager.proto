@@ -12,15 +12,17 @@ service KeymanagerService {
 }
 
 enum Keytype {
- CPF = 0;
- PHONE = 1;
- MAIL = 2;
- RANDOM = 3;
+ UNKNOW_TYPE = 0;
+ CPF = 1;
+ PHONE = 2;
+ MAIL = 3;
+ RANDOM = 4;
 }
 
 enum Account {
-CHECKING = 0;
-SAVINGS = 1;
+UNKNOW_ACCOUNT = 0;
+CHECKING = 1;
+SAVINGS = 2;
 }
 
 message RegisterRequest {
@@ -32,5 +34,6 @@ message RegisterRequest {
 
 message RegisterResponse {
     int32 id = 1;
+    string clientId = 2;
 }
 
