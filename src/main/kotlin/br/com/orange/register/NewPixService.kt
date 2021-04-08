@@ -2,6 +2,7 @@ package br.com.orange.register
 
 import br.com.orange.Account
 import br.com.orange.httpClient.ItauErpClient
+import br.com.orange.pix.PixKey
 import br.com.orange.pix.PixRepository
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
@@ -18,7 +19,7 @@ class NewPixService(@Inject val repository: PixRepository,@Inject val itauClient
     private val log = LoggerFactory.getLogger(this::class.java)
 
     @Transactional
-    fun register(@Valid newPixKey: NewPixKey): NewPixKey {
+    fun register(@Valid newPixKey: NewPixKey): PixKey {
         // 1. Verifica a existência da chave no sistema
         if(repository.existsByPix(newPixKey.pix)) throw PixKeyExistsException("Falha ao registrar nova chave")
         // 2. Busca dados junto ao sistema do ITAU
@@ -36,7 +37,7 @@ class NewPixService(@Inject val repository: PixRepository,@Inject val itauClient
         val pix = newPixKey.toModel(account)
         repository.save(pix)
 
-        return newPixKey
+        return pix
     }
 
 

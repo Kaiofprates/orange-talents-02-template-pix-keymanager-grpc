@@ -1,7 +1,8 @@
 package br.com.orange.register
 
 import br.com.orange.Account
-import br.com.orange.Keytype
+import br.com.orange.Keytype.*
+import br.com.orange.validation.KeyType
 import br.com.orange.RegisterRequest
 
 fun RegisterRequest.toModel(): NewPixKey {
@@ -9,8 +10,8 @@ fun RegisterRequest.toModel(): NewPixKey {
             clientId = clientId,
             pix = value,
             type = when (type) {
-                Keytype.UNKNOW_TYPE -> null
-                else -> Keytype.valueOf(type.name)
+                UNKNOW_TYPE -> null
+                else -> KeyType.valueOf(type.name)
             },
             account = when (account){
                 Account.UNKNOW_ACCOUNT -> null
