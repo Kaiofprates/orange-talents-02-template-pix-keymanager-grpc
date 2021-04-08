@@ -13,7 +13,7 @@ fun `send request test`() {
     val request = RegisterRequest.newBuilder()
             .setAccount(Account.CHECKING)
             .setType(Keytype.CPF)
-            .setKey("10335100686")
+            .setValue("10335100686")
             .build()
 
     val client = KeymanagerServiceGrpc.newBlockingStub(channel)

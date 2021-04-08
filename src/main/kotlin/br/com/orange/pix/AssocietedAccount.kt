@@ -12,4 +12,9 @@ open class AssocietedAccount(
         @field:NotBlank val numeroDaConta: String
 
 ) {
+
+    companion object {
+        public val ITAU_UNIBANCO_ISPB: String = "60701190"
+    }
+
 }
