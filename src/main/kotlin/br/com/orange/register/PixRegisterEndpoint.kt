@@ -22,7 +22,12 @@ class PixRegisterEndpoint(        @Inject private val service: NewPixService
         log.info(newPix.toString())
 
         try{
-            service.register(newPix!!)
+           val pix =  service.register(newPix!!)
+            responseObserver?.onNext(RegisterResponse.newBuilder()
+                    .setId(pix.id.toString())
+                    .setClientId(pix.clientId.toString())
+                    .build())
+            responseObserver?.onCompleted()
         }catch (error: PixKeyExistsException){
             val e = Status.ALREADY_EXISTS
                     .withDescription("Falha ao criar novo registro")
@@ -35,12 +40,6 @@ class PixRegisterEndpoint(        @Inject private val service: NewPixService
                     .asRuntimeException()
             responseObserver?.onError(e)
         }
-
-        responseObserver?.onNext(RegisterResponse.newBuilder()
-                .setId(12)
-                .setClientId("12312313")
-                .build())
-        responseObserver?.onCompleted()
 
 
     }

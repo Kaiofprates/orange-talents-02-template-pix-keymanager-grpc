@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull
 data class PixKey(
         val clientId: UUID,
         @field:NotNull @Enumerated(EnumType.STRING) val type: KeyType,
-        @field:NotBlank val pix: String,
+        @field:NotBlank @Column(unique = true ) val pix: String,
         @field:NotNull @Enumerated(EnumType.STRING) val accountType: Account,
         @field:NotNull @field:Valid @Embedded val account: AssocietedAccount
 ) {
