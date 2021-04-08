@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "br.com.orange";
+option java_outer_classname = "Keymanager";
+option objc_class_prefix = "HLW";
+
+package br.com.orange;
+
+service KeymanagerService {
+  rpc register(RegisterRequest) returns (RegisterResponse){}
+}
+
+enum Keytype {
+ CPF = 0;
+ PHONE = 1;
+ MAIL = 2;
+ RANDOM = 3;
+}
+
+enum Account {
+CHECKING = 0;
+SAVINGS = 1;
+}
+
+message RegisterRequest {
+    string value = 1;
+    Keytype type = 2;
+    Account account = 3;
+    string clientId = 4;
+}
+
+message RegisterResponse {
+    int32 id = 1;
+}
+
