@@ -12,7 +12,4 @@ interface ItauErpClient {
     @Get("/api/v1/clientes/{clientId}/contas{?tipo}")
     fun getAccount(@PathVariable clientId: String, @QueryValue tipo: String) : HttpResponse<ItauAccountResponse>
 
-    @Get("/api/v1/clientes/c56dfef4-7901-44fb-84e2-a2cefb157890/contas?tipo=CONTA_POUPANCA")
-    fun test(): HttpResponse<ItauAccountResponse>
-
 }

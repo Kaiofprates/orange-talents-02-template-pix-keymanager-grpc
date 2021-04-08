@@ -9,12 +9,15 @@ import io.micronaut.core.annotation.Introspected
 import java.util.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 @ValidPixKey
 @Introspected
 data class NewPixKey(
         @field:NotBlank
+        @field:Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+                flags = [Pattern.Flag.CASE_INSENSITIVE])
         val clientId: String?,
         @field:NotNull
         val type: KeyType?,

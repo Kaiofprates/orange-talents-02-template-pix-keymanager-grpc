@@ -6,6 +6,7 @@ import br.com.orange.RegisterResponse
 import io.grpc.Status
 import io.grpc.stub.StreamObserver
 import org.slf4j.LoggerFactory
+import java.lang.IllegalStateException
 import javax.inject.Inject
 import javax.inject.Singleton
 import javax.validation.ConstraintViolationException
@@ -23,22 +24,29 @@ class PixRegisterEndpoint(        @Inject private val service: NewPixService
 
         try{
            val pix =  service.register(newPix!!)
+
             responseObserver?.onNext(RegisterResponse.newBuilder()
                     .setId(pix.id.toString())
                     .setClientId(pix.clientId.toString())
                     .build())
             responseObserver?.onCompleted()
+
         }catch (error: PixKeyExistsException){
-            val e = Status.ALREADY_EXISTS
+
+            responseObserver?.onError(Status.ALREADY_EXISTS
                     .withDescription("Falha ao criar novo registro")
                     .augmentDescription("A chave indicada já consta no banco de dados")
-                    .asRuntimeException()
-            responseObserver?.onError(e)
+                    .asRuntimeException())
+
         }catch (error: ConstraintViolationException){
-            val e = Status.INVALID_ARGUMENT
+            responseObserver?.onError(Status.INVALID_ARGUMENT
                     .withDescription(error.message)
-                    .asRuntimeException()
-            responseObserver?.onError(e)
+                    .asRuntimeException())
+
+        }catch (error: IllegalStateException){
+            responseObserver?.onError( Status.NOT_FOUND
+                    .withDescription(error.message)
+                    .asRuntimeException())
         }
 
 
