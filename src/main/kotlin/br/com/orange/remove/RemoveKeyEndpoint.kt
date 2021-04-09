@@ -1,5 +1,6 @@
 package br.com.orange.remove
 
+import br.com.orange.KeymanagerRemoveServiceGrpc
 import br.com.orange.KeymanagerServiceGrpc
 import br.com.orange.RemoveRequest
 import br.com.orange.RemoveResponse
@@ -8,9 +9,10 @@ import io.grpc.stub.StreamObserver
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import javax.inject.Singleton
+import javax.validation.ConstraintViolationException
 
 @Singleton
-open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): KeymanagerServiceGrpc.KeymanagerServiceImplBase() {
+open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): KeymanagerRemoveServiceGrpc.KeymanagerRemoveServiceImplBase() {
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
@@ -36,6 +38,10 @@ open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): Ke
         }catch(error: PixNotExistsException){
 
             responseObserver?.onError(Status.NOT_FOUND
+                    .withDescription(error.message)
+                    .asRuntimeException())
+        }catch(error: ConstraintViolationException){
+            responseObserver?.onError(Status.INVALID_ARGUMENT
                     .withDescription(error.message)
                     .asRuntimeException())
         }

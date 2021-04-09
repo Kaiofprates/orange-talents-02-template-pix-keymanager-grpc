@@ -113,13 +113,6 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
                         assertEquals(Status.ALREADY_EXISTS.code,it.status.code)
       }
 
-      val response = SERVICE.removepix(RemoveRequest.newBuilder()
-              .setClientId(CLIENT_ID.toString())
-              .setKey("02467781054")
-              .build()
-      ).also {
-          assertNotNull(it.message)
-      }
 
     }
 

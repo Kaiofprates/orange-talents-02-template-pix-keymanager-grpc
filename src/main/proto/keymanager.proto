@@ -8,8 +8,11 @@ option objc_class_prefix = "HLW";
 package br.com.orange;
 
 service KeymanagerService {
-  rpc register(RegisterRequest) returns (RegisterResponse){}
-  rpc removepix(RemoveRequest) returns (RemoveResponse){}
+  rpc register (RegisterRequest) returns (RegisterResponse){}
+}
+
+service KeymanagerRemoveService {
+  rpc removepix (RemoveRequest) returns (RemoveResponse){}
 }
 
 enum Keytype {

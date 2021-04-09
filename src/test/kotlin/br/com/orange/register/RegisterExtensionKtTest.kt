@@ -30,7 +30,7 @@ internal class RegisterExtensionKtTest(){
     @Test
     @DisplayName("Testa o comportamento criacão de pix aleatório")
     fun `random pix test`(){
-        val register  = RegisterRequest.newBuilder()
+        RegisterRequest.newBuilder()
                 .setType(Keytype.RANDOM)
                 .setClientId("c56dfef4-7901-44fb-84e2-a2cefb157890")
                 .setAccount(Account.SAVINGS)
