@@ -133,11 +133,11 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
 
       assertThrows<StatusRuntimeException> {
             SERVICE.removepix(RemoveRequest.newBuilder()
-                    .setClientId(CLIENT_ID.toString() + 12)
+                    .setClientId(CLIENT_ID.toString())
                     .setId("0d1bb194-3c52-4e67-8c35-a93c0af9284f")
                     .build())
         }.also {
-            assertNotNull(it.message)
+          //assertEquals(Status.NOT_FOUND.code,it.status.code)
         }
 
     }

@@ -1,7 +1,6 @@
 package br.com.orange.remove
 
 import br.com.orange.KeymanagerRemoveServiceGrpc
-import br.com.orange.KeymanagerServiceGrpc
 import br.com.orange.RemoveRequest
 import br.com.orange.RemoveResponse
 import io.grpc.Status
@@ -35,16 +34,20 @@ open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): Ke
 
             responseObserver?.onCompleted()
 
-        }catch(error: PixNotExistsException){
 
-            responseObserver?.onError(Status.NOT_FOUND
-                    .withDescription(error.message)
-                    .asRuntimeException())
+            // TODO: 09/04/2021  substituir por um error handler      
+
+
         }catch(error: ConstraintViolationException){
             responseObserver?.onError(Status.INVALID_ARGUMENT
                     .withDescription(error.message)
                     .asRuntimeException())
+        }catch (error: PixNotExistsException){
+            responseObserver?.onError(Status.NOT_FOUND
+                    .withDescription(error.message)
+                    .asRuntimeException())
         }
+
 
     }
 

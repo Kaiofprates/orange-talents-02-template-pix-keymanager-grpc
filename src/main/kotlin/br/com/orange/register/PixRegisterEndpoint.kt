@@ -31,6 +31,8 @@ class PixRegisterEndpoint(        @Inject private val service: NewPixService
                     .build())
             responseObserver?.onCompleted()
 
+            // TODO: 09/04/2021  substuir por um errorhandler 
+
         }catch (error: PixKeyExistsException){
 
             responseObserver?.onError(Status.ALREADY_EXISTS

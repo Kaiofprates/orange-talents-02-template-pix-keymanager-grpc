@@ -5,7 +5,7 @@ import javax.validation.constraints.Pattern
 
 class RemoveRequestDto(
 
-        // refatorar essa lógica para uma annotation de validação de pattern
+        // TODO: 09/04/2021  Refatorar essa lógica para uma annotation de validação de UUID
 
         @field:NotBlank
         @field:Pattern(
