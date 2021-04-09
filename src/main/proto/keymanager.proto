@@ -9,6 +9,7 @@ package br.com.orange;
 
 service KeymanagerService {
   rpc register(RegisterRequest) returns (RegisterResponse){}
+  rpc removepix(RemoveRequest) returns (RemoveResponse){}
 }
 
 enum Keytype {
@@ -23,6 +24,15 @@ enum Account {
 UNKNOW_ACCOUNT = 0;
 CHECKING = 1;
 SAVINGS = 2;
+}
+
+message RemoveRequest {
+    string key = 1;
+    string clientId = 2;
+}
+
+message RemoveResponse {
+   string message = 1;
 }
 
 message RegisterRequest {

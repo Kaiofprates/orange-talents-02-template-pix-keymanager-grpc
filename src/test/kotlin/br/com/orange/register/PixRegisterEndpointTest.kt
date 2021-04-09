@@ -1,9 +1,6 @@
 package br.com.orange.register
 
-import br.com.orange.Account
-import br.com.orange.KeymanagerServiceGrpc
-import br.com.orange.Keytype
-import br.com.orange.RegisterRequest
+import br.com.orange.*
 import br.com.orange.httpClient.InstituicaoResponse
 import br.com.orange.httpClient.ItauAccountResponse
 import br.com.orange.httpClient.ItauErpClient
@@ -114,7 +111,17 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
                     .setType(Keytype.CPF)
                     .build()) }.also {
                         assertEquals(Status.ALREADY_EXISTS.code,it.status.code)
-    } }
+      }
+
+      val response = SERVICE.removepix(RemoveRequest.newBuilder()
+              .setClientId(CLIENT_ID.toString())
+              .setKey("02467781054")
+              .build()
+      ).also {
+          assertNotNull(it.message)
+      }
+
+    }
 
 
     @ParameterizedTest

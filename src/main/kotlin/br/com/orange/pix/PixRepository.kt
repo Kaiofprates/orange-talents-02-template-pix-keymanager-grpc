@@ -7,4 +7,5 @@ import java.util.*
 @Repository
 interface PixRepository: JpaRepository<PixKey,UUID> {
     fun existsByPix(pix: String?): Boolean
+    fun deleteByPix(pix: String)
 }
