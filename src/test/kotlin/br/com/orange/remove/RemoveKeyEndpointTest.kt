@@ -89,7 +89,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
 
         SERVICE.removepix(RemoveRequest.newBuilder()
                 .setClientId(CLIENT_ID.toString())
-                .setKey(pixId1.toString())
+                .setId(pixId1.toString())
                 .build()
         ).also {
             assertEquals(it.message,"Chave removida com sucesso!")
@@ -104,7 +104,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
       assertThrows<StatusRuntimeException> {
             SERVICE.removepix(RemoveRequest.newBuilder()
                     .setClientId(CLIENT_ID.toString())
-                    .setKey(pixId2.toString())
+                    .setId(pixId2.toString())
                     .build())
         }.also {
             assertEquals(Status.NOT_FOUND.code,it.status.code)
@@ -118,7 +118,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
       assertThrows<RuntimeException> {
             SERVICE.removepix(RemoveRequest.newBuilder()
                     .setClientId(CLIENT_ID.toString() + 12)
-                    .setKey("02467781054")
+                    .setId("02467781054")
                     .build())
         }.also {
             assertNotNull(it.message)
@@ -126,7 +126,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
 
     }
 
-   /*
+
     @Test
     @DisplayName("Testa tentativa de remoção de chave não existente")
     fun `chave nao existente`(){
@@ -134,30 +134,14 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
       assertThrows<StatusRuntimeException> {
             SERVICE.removepix(RemoveRequest.newBuilder()
                     .setClientId(CLIENT_ID.toString() + 12)
-                    .setKey("02467781054")
+                    .setId("0d1bb194-3c52-4e67-8c35-a93c0af9284f")
                     .build())
         }.also {
             assertNotNull(it.message)
         }
 
     }
-    */
 
-
-    @Test
-    @DisplayName("Testa tentativa de remoção de chave não existente")
-    fun `chave nao pertencente ao clientiD existente`(){
-
-    assertThrows<StatusRuntimeException> {
-            SERVICE.removepix(RemoveRequest.newBuilder()
-                    .setClientId(CLIENT_ID2.toString())
-                    .setKey("86135457004")
-                    .build())
-        }.also {
-            assertEquals(Status.NOT_FOUND.code,it.status.code)
-        }
-
-    }
 
     @Test
     @DisplayName("Teste unitário para a formação do UUID")
@@ -166,7 +150,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
       assertThrows<ConstraintViolationException>{
           removeKeyService.removepix(RemoveRequest.newBuilder()
                   .setClientId(CLIENT_ID.toString() + 12)
-                  .setKey("02467781054")
+                  .setId(pixId1.toString())
                   .build()
                   .toModel())
       }.also {

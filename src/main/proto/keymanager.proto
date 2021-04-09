@@ -30,7 +30,7 @@ SAVINGS = 2;
 }
 
 message RemoveRequest {
-    string key = 1;
+    string id = 1;
     string clientId = 2;
 }
 

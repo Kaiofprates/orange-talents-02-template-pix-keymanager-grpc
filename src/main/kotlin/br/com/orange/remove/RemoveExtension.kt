@@ -5,7 +5,7 @@ import java.util.*
 
 fun RemoveRequest.toModel(): RemoveRequestDto {
     return RemoveRequestDto(
-            pixId = key,
+            pixId = id,
             clientId = clientId
     )
 }
