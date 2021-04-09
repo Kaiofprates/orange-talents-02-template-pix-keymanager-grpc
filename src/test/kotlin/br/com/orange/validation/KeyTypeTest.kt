@@ -30,6 +30,17 @@ internal class KeyTypeTest(){
                 Arguments.of("mailmail.com", KeyType.MAIL),
                 Arguments.of("123456789asdf", KeyType.RANDOM),
         )
+
+
+
+        @JvmStatic
+        fun FormattedPix() = listOf(
+                Arguments.of("56976710086", KeyType.CPF),
+                Arguments.of("+5585988714077", KeyType.PHONE),
+                Arguments.of("mailtest@mail.com", KeyType.MAIL),
+                Arguments.of("mailtest@mail.com.br", KeyType.MAIL),
+                Arguments.of("", KeyType.RANDOM),
+        )
     }
 
     @ParameterizedTest
@@ -37,6 +48,13 @@ internal class KeyTypeTest(){
     @DisplayName("[teste unitário] Falha na formatação da chave")
     fun `falha no formato da chave`(keyValue: String, keyType: KeyType){
        assertFalse(keyType.valida(keyValue))
+    }
+
+    @ParameterizedTest
+    @MethodSource("FormattedPix")
+    @DisplayName("[teste unitário] sucesso na validação da chave pix")
+    fun `chave no formato correto`(keyValue: String, keyType: KeyType){
+        assertTrue(keyType.valida(keyValue))
     }
 
 
