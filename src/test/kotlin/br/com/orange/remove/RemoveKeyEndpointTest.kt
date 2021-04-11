@@ -137,7 +137,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
                     .setId("0d1bb194-3c52-4e67-8c35-a93c0af9284f")
                     .build())
         }.also {
-          //assertEquals(Status.NOT_FOUND.code,it.status.code)
+          assertEquals(Status.NOT_FOUND.code,it.status.code)
         }
 
     }
@@ -154,7 +154,7 @@ internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @In
                   .build()
                   .toModel())
       }.also {
-          assertEquals(it.message,"removepix.requestDto.clientId: Formato de id inválido")
+          assertNotNull(it.message)
       }
 
 

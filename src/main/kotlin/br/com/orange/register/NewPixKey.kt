@@ -3,6 +3,7 @@ package br.com.orange.register
 import br.com.orange.Account
 import br.com.orange.pix.AssocietedAccount
 import br.com.orange.pix.PixKey
+import br.com.orange.validation.IsUUid
 import br.com.orange.validation.KeyType
 import br.com.orange.validation.ValidPixKey
 import io.micronaut.core.annotation.Introspected
@@ -16,8 +17,7 @@ import javax.validation.constraints.Size
 @Introspected
 data class NewPixKey(
         @field:NotBlank
-        @field:Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
-                flags = [Pattern.Flag.CASE_INSENSITIVE])
+        @field:IsUUid
         val clientId: String?,
         @field:NotNull
         val type: KeyType?,
