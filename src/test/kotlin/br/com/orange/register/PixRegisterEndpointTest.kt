@@ -3,7 +3,7 @@ package br.com.orange.register
 import br.com.orange.*
 import br.com.orange.httpClient.InstituicaoResponse
 import br.com.orange.httpClient.ItauAccountResponse
-import br.com.orange.httpClient.ItauErpClient
+import br.com.orange.httpClient.itau.ItauErpClient
 import br.com.orange.httpClient.TitularResponse
 import br.com.orange.pix.AssocietedAccount
 import br.com.orange.pix.PixKey
@@ -15,7 +15,6 @@ import io.grpc.StatusRuntimeException
 import io.micronaut.http.HttpResponse
 import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import org.junit.Assert
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -55,8 +54,8 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
                 Arguments.of("", KeyType.PHONE),
                 Arguments.of("+5585988714077a", KeyType.PHONE),
                 Arguments.of("5585988714077", KeyType.PHONE),
-                Arguments.of("", KeyType.MAIL),
-                Arguments.of("mailmail.com", KeyType.MAIL),
+                Arguments.of("", KeyType.EMAIL),
+                Arguments.of("mailmail.com", KeyType.EMAIL),
                 Arguments.of("123456789asdf", KeyType.RANDOM),
 
 
@@ -81,7 +80,7 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
              .setAccount(Account.CHECKING)
              .setClientId(CLIENT_ID.toString())
              .setValue("rponte@zup.com.br")
-             .setType(Keytype.MAIL)
+             .setType(Keytype.EMAIL)
              .build())
 
       with(response){
@@ -89,6 +88,30 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
           assertNotNull(id)
       }
     }
+
+    @Test
+    @DisplayName("Testa chave randomica do micro serviço do bcb")
+    fun `testa chave randomica`(){
+        `when`(itauClient.getAccount(clientId = CLIENT_ID.toString(), tipo = "CONTA_CORRENTE"))
+            .thenReturn(HttpResponse.ok(ItauAccountResponse()))
+
+        val response  = SERVICE.register(RegisterRequest.newBuilder()
+            .setAccount(Account.CHECKING)
+            .setClientId(CLIENT_ID.toString())
+            .setValue("")
+            .setType(Keytype.RANDOM)
+            .build())
+
+        val pixkey = repository.findByClientId(CLIENT_ID)
+        assertFalse(pixkey.get().pix == "")
+
+        with(response){
+            assertEquals(CLIENT_ID.toString(),clientId)
+            assertNotNull(id)
+        }
+    }
+
+
 
     @Test
     @DisplayName("Falha ao cadastrar chave já existente")

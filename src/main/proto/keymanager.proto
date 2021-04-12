@@ -19,7 +19,8 @@ enum Keytype {
  UNKNOW_TYPE = 0;
  CPF = 1;
  PHONE = 2;
- MAIL = 3;
+ EMAIL = 3;
+ CNPJ = 5;
  RANDOM = 4;
 }
 

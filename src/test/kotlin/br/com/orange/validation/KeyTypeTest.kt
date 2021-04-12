@@ -26,8 +26,8 @@ internal class KeyTypeTest(){
                 Arguments.of("", KeyType.PHONE),
                 Arguments.of("+5585988714077a", KeyType.PHONE),
                 Arguments.of("5585988714077", KeyType.PHONE),
-                Arguments.of("", KeyType.MAIL),
-                Arguments.of("mailmail.com", KeyType.MAIL),
+                Arguments.of("", KeyType.EMAIL),
+                Arguments.of("mailmail.com", KeyType.EMAIL),
                 Arguments.of("123456789asdf", KeyType.RANDOM),
         )
 
@@ -37,8 +37,8 @@ internal class KeyTypeTest(){
         fun FormattedPix() = listOf(
                 Arguments.of("56976710086", KeyType.CPF),
                 Arguments.of("+5585988714077", KeyType.PHONE),
-                Arguments.of("mailtest@mail.com", KeyType.MAIL),
-                Arguments.of("mailtest@mail.com.br", KeyType.MAIL),
+                Arguments.of("mailtest@mail.com", KeyType.EMAIL),
+                Arguments.of("mailtest@mail.com.br", KeyType.EMAIL),
                 Arguments.of("", KeyType.RANDOM),
         )
     }

@@ -18,6 +18,7 @@ open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): Ke
     override fun removepix(request: RemoveRequest?,
                            responseObserver: StreamObserver<RemoveResponse>?) {
 
+
         try{
             /* passamos por um DTO
             *  para fazer uso das validações

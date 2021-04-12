@@ -1,5 +1,6 @@
-package br.com.orange.httpClient
+package br.com.orange.httpClient.itau
 
+import br.com.orange.httpClient.ItauAccountResponse
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Get
 import io.micronaut.http.annotation.PathVariable

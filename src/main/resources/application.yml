@@ -21,3 +21,5 @@ jpa.default.properties.hibernate.show_sql: true
 itau:
   contas:
     url: ${ITAU_URL:`http://localhost:9091`}
+bcb:
+  url: ${BCB_URL:`http://localhost:8082`}

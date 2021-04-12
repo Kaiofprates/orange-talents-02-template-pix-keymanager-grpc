@@ -26,7 +26,7 @@ enum class KeyType {
             return key.matches("^\\+[1-9][0-9]\\d{1,14}\$".toRegex())
         }
     },
-    MAIL {
+    EMAIL {
         override fun valida(key: String?): Boolean {
             if(key.isNullOrBlank()){
                 return false

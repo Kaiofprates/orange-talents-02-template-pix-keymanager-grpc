@@ -1,7 +1,13 @@
 package br.com.orange.remove
 
+import br.com.orange.handler.ErrorHandler
+import br.com.orange.httpClient.bcb.BancoDoBrasilClient
+import br.com.orange.httpClient.bcb.DeleteRequest
 import br.com.orange.pix.PixRepository
 import br.com.orange.validation.ValidPixAndClientId
+import io.grpc.Status
+import io.grpc.StatusRuntimeException
+import io.micronaut.http.HttpStatus
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,7 +17,11 @@ import javax.validation.Valid
 // TODO: 09/04/2021  fazer esse error handler funcionar ! 
 //@ErrorHandler
 @Singleton
-open class RemoveKeyService(@Inject val repository: PixRepository, @Inject val existsByPixAndClientId: ValidPixAndClientId) {
+open class RemoveKeyService(
+    @Inject val repository: PixRepository,
+    @Inject val existsByPixAndClientId: ValidPixAndClientId,
+    @Inject val bcClient: BancoDoBrasilClient
+) {
 
     @Transactional
     open fun removepix(@Valid requestDto: RemoveRequestDto){
@@ -25,8 +35,19 @@ open class RemoveKeyService(@Inject val repository: PixRepository, @Inject val e
         val checkPix = existsByPixAndClientId.valida(pixId = pixId, clientId = clientId)
         if(!checkPix) throw PixNotExistsException("Chave pix não encontrada")
 
+        val pix = repository.findById(pixId)
+
+        val deleteRequest = DeleteRequest(pix.get().pix,"60701190")
+        val response  = bcClient.delete(deleteRequest)
+
+        if(response.status != HttpStatus.OK) throw StatusRuntimeException(Status.UNAVAILABLE)
+
         // remove a chave do sistema
         repository.deleteById(pixId)
+
+
+
+
     }
 
 }

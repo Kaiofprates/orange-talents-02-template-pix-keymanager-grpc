@@ -22,7 +22,7 @@ internal class RegisterExtensionKtTest(){
         fun createPix() = listOf(
                 Arguments.of("56976710086", KeyType.CPF),
                 Arguments.of("+5585988714077", KeyType.PHONE),
-                Arguments.of("mailtest@mail.com", KeyType.MAIL),
+                Arguments.of("mailtest@mail.com", KeyType.EMAIL),
         )
     }
 

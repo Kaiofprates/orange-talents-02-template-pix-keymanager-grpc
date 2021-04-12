@@ -11,4 +11,5 @@ interface PixRepository: JpaRepository<PixKey,UUID> {
    fun deleteByPix(pix: String)
    @Query("SELECT p FROM PixKey as p WHERE pix=:key AND clientId =:clientId")
    fun existsByPixAndClientId(key: String, clientId: String): Optional<PixKey>
+   fun findByClientId(clientId: UUID?): Optional<PixKey>
 }

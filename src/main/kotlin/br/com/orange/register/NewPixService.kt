@@ -1,9 +1,13 @@
 package br.com.orange.register
 
 import br.com.orange.Account
-import br.com.orange.httpClient.ItauErpClient
+import br.com.orange.httpClient.bcb.BancoDoBrasilClient
+import br.com.orange.httpClient.itau.ItauErpClient
 import br.com.orange.pix.PixKey
 import br.com.orange.pix.PixRepository
+import br.com.orange.pix.toModel
+import br.com.orange.pix.update
+import io.micronaut.http.HttpStatus
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
 import java.lang.IllegalStateException
@@ -14,7 +18,11 @@ import javax.validation.Valid
 
 @Validated
 @Singleton
-class NewPixService(@Inject val repository: PixRepository,@Inject val itauClient: ItauErpClient) {
+class NewPixService(
+    @Inject val repository: PixRepository,
+    @Inject val itauClient: ItauErpClient,
+    @Inject val bcbClient: BancoDoBrasilClient
+) {
 
     private val log = LoggerFactory.getLogger(this::class.java)
 
@@ -36,6 +44,16 @@ class NewPixService(@Inject val repository: PixRepository,@Inject val itauClient
         // 3 - Persistindo no banco de dados
         val pix = newPixKey.toModel(account)
         repository.save(pix)
+
+       val bcresponse =  bcbClient.create(pix.toModel()).also {
+           log.info("Registrando conta: ${it}")
+       }
+
+       if(bcresponse.status != HttpStatus.CREATED){
+           throw  IllegalStateException("Erro ao cadastrar chave")
+       }
+
+       pix.update(bcresponse.body()!!.key)
 
         return pix
     }
