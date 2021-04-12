@@ -3,6 +3,7 @@ package br.com.orange.remove
 import br.com.orange.Account
 import br.com.orange.KeymanagerRemoveServiceGrpc
 import br.com.orange.RemoveRequest
+import br.com.orange.httpClient.bcb.BancoDoBrasilClient
 import br.com.orange.pix.AssocietedAccount
 import br.com.orange.pix.PixKey
 import br.com.orange.pix.PixRepository
@@ -11,6 +12,7 @@ import br.com.orange.validation.ValidPixAndClientId
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
+import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -18,15 +20,27 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.platform.commons.logging.LoggerFactory
+import org.mockito.Mockito
 import java.util.*
 import javax.inject.Inject
 import javax.validation.ConstraintViolationException
 
 @MicronautTest(transactional = false)
-internal class RemoveKeyEndpointTest(@Inject val repository: PixRepository , @Inject val removeKeyService: RemoveKeyService, @Inject val valid: ValidPixAndClientId){
+internal class RemoveKeyEndpointTest(
+    @Inject val repository: PixRepository,
+    @Inject val removeKeyService: RemoveKeyService,
+    @Inject val valid: ValidPixAndClientId,
+    @Inject val client: BancoDoBrasilClient
+){
 
 
     private val log = LoggerFactory.getLogger(this::class.java)
+
+
+    @MockBean(BancoDoBrasilClient::class)
+    fun client(): BancoDoBrasilClient? {
+        return Mockito.mock(BancoDoBrasilClient::class.java)
+    }
 
     @BeforeEach
     fun setup(){
