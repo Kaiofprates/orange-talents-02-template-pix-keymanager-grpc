@@ -43,8 +43,17 @@ message RemoveRequest {
 }
 
 message FindRequest {
+message FiltroPorPixId{
     string id = 1;
     string clientId = 2;
+}
+
+oneof filtro {
+
+FiltroPorPixId pixId = 1;
+string pixkey = 2;
+}
+
 }
 
 message FindResponse {

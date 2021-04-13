@@ -12,4 +12,5 @@ interface PixRepository: JpaRepository<PixKey,UUID> {
    @Query("SELECT p FROM PixKey as p WHERE pix=:key AND clientId =:clientId")
    fun existsByPixAndClientId(key: String, clientId: String): Optional<PixKey>
    fun findByClientId(clientId: UUID?): Optional<PixKey>
+   fun findByPix(pix: String): Optional<PixKey>
 }

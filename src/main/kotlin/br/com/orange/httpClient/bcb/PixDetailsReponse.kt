@@ -8,7 +8,6 @@ import javax.persistence.Embedded
 data class PixDetailsReponse(
     val keyType: String,
     val key: String,
-    val participant: String,
     @Embedded
     val bankAccount: BankAccount,
     @Embedded
@@ -26,6 +25,7 @@ data class Owner (
 
 @Embeddable
 data class BankAccount(
+    val participant: String,
     val branch: String,
     val accountNumber: String,
     val accountType: String
