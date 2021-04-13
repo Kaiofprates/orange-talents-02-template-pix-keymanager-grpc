@@ -24,6 +24,8 @@ open class FindKeyService(
     @Transactional
     open fun getPix(@Valid requestDto: FindRequestDto): FindResponse{
 
+        println("pesquisa no banco da aplicação")
+
         val pix = repository.findById(UUID.fromString(requestDto.id))
 
         if(pix.isEmpty || pix.get().clientId != UUID.fromString(requestDto.clientId)) {
@@ -38,6 +40,8 @@ open class FindKeyService(
 
     @Transactional
     open fun getPix(@Valid pix: PixKeyDto): FindResponse {
+
+        println("pesquisa no banco central")
 
        // pesquisa inicial no banco de dados da aplicação
 
