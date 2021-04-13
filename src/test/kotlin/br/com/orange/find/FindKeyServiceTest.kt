@@ -1,19 +1,25 @@
 package br.com.orange.find
 
 import br.com.orange.Account
+import br.com.orange.FindRequest
 import br.com.orange.KeymanagerFindKeyGrpc
 import br.com.orange.KeymanagerRemoveServiceGrpc
 import br.com.orange.pix.AssocietedAccount
 import br.com.orange.pix.PixKey
 import br.com.orange.pix.PixRepository
+import br.com.orange.remove.PixNotExistsException
 import br.com.orange.remove.RemoveKeyEndpointTest
 import br.com.orange.validation.KeyType
 import io.grpc.ManagedChannelBuilder
+import io.grpc.Status
+import io.grpc.StatusRuntimeException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.assertThrows
+import java.util.*
 import javax.inject.Inject
 
 
@@ -26,7 +32,7 @@ internal class FindKeyServiceTest(@Inject val repository: PixRepository, ) {
         repository.deleteAll()
 
         val pixkey = PixKey(
-            RemoveKeyEndpointTest.CLIENT_ID2, KeyType.CPF,"02467781054",
+            UUID.randomUUID() , KeyType.CPF,"02467781054",
             Account.CHECKING,
             AssocietedAccount("ITAÚ UNIBANCO S.A.",
                 "Rafael M C Ponte",
@@ -35,8 +41,8 @@ internal class FindKeyServiceTest(@Inject val repository: PixRepository, ) {
                 "291900")
         )
         val newPixKey = repository.save(pixkey)
-        clientIdTest = newPixKey.id.toString()
-        idTest = newPixKey.clientId.toString()
+        idTest = newPixKey.id.toString()
+        clientIdTest = newPixKey.clientId.toString()
         pixValue = newPixKey.pix
     }
 
@@ -54,8 +60,56 @@ internal class FindKeyServiceTest(@Inject val repository: PixRepository, ) {
 
 
     @Test
-    fun `
+    fun `deve retornar erro por chave id com formato inválido`(){
 
+        assertThrows<StatusRuntimeException>{
+            SERVICE.findById(FindRequest.newBuilder()
+                .setPixkey("")
+                .setPixId(
+                    FindRequest.FiltroPorPixId.newBuilder()
+                        .setId(idTest + 1)
+                        .setClientId(clientIdTest)
+                        .build())
+                .build())
+        }.also {
+            assertEquals(it.status.code, Status.INVALID_ARGUMENT.code)
+        }
+    }
+
+
+    @Test
+    fun `deve retornar erro por chave id não existente`(){
+
+        assertThrows<StatusRuntimeException>{
+            SERVICE.findById(FindRequest.newBuilder()
+                .setPixkey("")
+                .setPixId(
+                    FindRequest.FiltroPorPixId.newBuilder()
+                        .setId(UUID.randomUUID().toString())
+                        .setClientId(UUID.randomUUID().toString())
+                        .build())
+                .build())
+        }.also {
+            assertEquals(it.status.code, Status.NOT_FOUND.code)
+        }
+    }
+
+    @Test
+    fun `deve retornar erro por pix  inválido`(){
+
+        assertThrows<StatusRuntimeException>{
+            SERVICE.findById(FindRequest.newBuilder()
+                .setPixkey("")
+                .setPixId(
+                    FindRequest.FiltroPorPixId.newBuilder()
+                        .setId(idTest)
+                        .setClientId(clientIdTest)
+                        .build())
+                .build())
+        }.also {
+            assertEquals(it.status.code, Status.NOT_FOUND.code)
+        }
+    }
 
 
 }
