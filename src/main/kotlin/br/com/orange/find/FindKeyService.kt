@@ -52,7 +52,6 @@ open class FindKeyService(
       if(response.status == HttpStatus.OK){
           return response.body().toResponse()
       }else{
-          println(" Não presente no banco de dados")
           throw PixNotExistsException("Chave não encontrada")
       }
 
