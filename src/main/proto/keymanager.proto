@@ -15,6 +15,13 @@ service KeymanagerRemoveService {
   rpc removepix (RemoveRequest) returns (RemoveResponse){}
 }
 
+
+service KeymanagerFindKey {
+    rpc findById(FindRequest) returns (FindResponse){}
+}
+
+
+
 enum Keytype {
  UNKNOW_TYPE = 0;
  CPF = 1;
@@ -33,6 +40,25 @@ SAVINGS = 2;
 message RemoveRequest {
     string id = 1;
     string clientId = 2;
+}
+
+message FindRequest {
+    string id = 1;
+    string clientId = 2;
+}
+
+message FindResponse {
+    string id = 1;
+    string agencia = 2;
+    string cpf = 3;
+    string instituicao = 4;
+    string nome = 5;
+    string conta = 6;
+    string tipoDeConta = 7;
+    string clientId = 8;
+    string criadoEm = 9;
+    string chave = 10;
+    string tipoDeChave = 11;
 }
 
 message RemoveResponse {
