@@ -85,7 +85,7 @@ internal class FindKeyMockTest(
         Mockito.`when`(bancoDoBrasilClient.findById(pixValue))
             .thenReturn(HttpResponse.ok(pixDetails()))
 
-        val response = SERVICE.findById(
+        val response = SERVICE.findByKey(
             FindRequest.newBuilder()
             .setPixkey(pixValue)
             .build())
@@ -107,7 +107,7 @@ internal class FindKeyMockTest(
         Mockito.`when`(bancoDoBrasilClient.findById(pixValue))
             .thenReturn(HttpResponse.ok(pixDetails()))
 
-        val response = SERVICE.findById(
+        val response = SERVICE.findByKey(
             FindRequest.newBuilder()
                 .setPixkey(pixValue)
                 .setPixId(FindRequest.FiltroPorPixId.newBuilder()

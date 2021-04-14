@@ -15,12 +15,32 @@ service KeymanagerRemoveService {
   rpc removepix (RemoveRequest) returns (RemoveResponse){}
 }
 
-
 service KeymanagerFindKey {
-    rpc findById(FindRequest) returns (FindResponse){}
+    rpc findByKey(FindRequest) returns (FindResponse){}
+}
+
+service KeymanagerListService {
+    rpc listKey(ListRequest) returns (ListResponse){}
 }
 
 
+message ListRequest {
+    string clientId = 1;
+}
+
+
+message ListResponse {
+
+message AllPix {
+string id = 1;
+Keytype key = 2;
+string pix = 3;
+Account accountType = 4;
+string createAt = 5;
+}
+string clientId = 1;
+repeated AllPix keys = 2;
+}
 
 enum Keytype {
  UNKNOW_TYPE = 0;

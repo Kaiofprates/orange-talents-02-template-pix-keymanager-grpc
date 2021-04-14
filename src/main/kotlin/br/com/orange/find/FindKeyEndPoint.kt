@@ -16,7 +16,7 @@ import javax.validation.ConstraintViolationException
 class FindKeyEndPoint(@Inject val service: FindKeyService
 ): KeymanagerFindKeyGrpc.KeymanagerFindKeyImplBase() {
 
-    override fun findById(
+    override fun findByKey(
         request: FindRequest?,
         responseObserver: StreamObserver<FindResponse>?
     ) {

@@ -60,7 +60,7 @@ internal class FindKeyServiceTest(
     fun `deve retornar erro por chave id com formato inválido`(){
 
         assertThrows<StatusRuntimeException>{
-            SERVICE.findById(FindRequest.newBuilder()
+            SERVICE.findByKey(FindRequest.newBuilder()
                 .setPixkey("")
                 .setPixId(
                     FindRequest.FiltroPorPixId.newBuilder()
@@ -78,7 +78,7 @@ internal class FindKeyServiceTest(
     fun `deve retornar erro por chave id não existente`(){
 
         assertThrows<StatusRuntimeException>{
-            SERVICE.findById(FindRequest.newBuilder()
+            SERVICE.findByKey(FindRequest.newBuilder()
                 .setPixkey("")
                 .setPixId(
                     FindRequest.FiltroPorPixId.newBuilder()
@@ -95,7 +95,7 @@ internal class FindKeyServiceTest(
     fun `deve retornar erro por pix  inválido`(){
 
         assertThrows<StatusRuntimeException>{
-            SERVICE.findById(FindRequest.newBuilder()
+            SERVICE.findByKey(FindRequest.newBuilder()
                 .setPixkey("")
                 .setPixId(
                     FindRequest.FiltroPorPixId.newBuilder()

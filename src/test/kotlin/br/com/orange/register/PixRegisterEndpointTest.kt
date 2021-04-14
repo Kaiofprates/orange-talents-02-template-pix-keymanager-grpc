@@ -5,6 +5,10 @@ import br.com.orange.httpClient.InstituicaoResponse
 import br.com.orange.httpClient.ItauAccountResponse
 import br.com.orange.httpClient.itau.ItauErpClient
 import br.com.orange.httpClient.TitularResponse
+import br.com.orange.httpClient.bcb.*
+import br.com.orange.httpClient.bcb.request.BankAccountRequest
+import br.com.orange.httpClient.bcb.request.BcbRequest
+import br.com.orange.httpClient.bcb.request.OwnerRequest
 import br.com.orange.pix.AssocietedAccount
 import br.com.orange.pix.PixKey
 import br.com.orange.pix.PixRepository
@@ -29,6 +33,7 @@ import javax.inject.Inject
 internal class PixRegisterEndpointTest(val repository: PixRepository){
     @Inject
     lateinit var itauClient: ItauErpClient
+
 
     @BeforeEach
     fun setup(){
@@ -68,30 +73,6 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
     fun itauClient(): ItauErpClient? {
         return Mockito.mock(ItauErpClient::class.java)
     }
-
-    // FIXME: 13/04/2021  Ganhamos um HttpClienteResponseException - descobir a causa!
-/*
-    @Test
-    @DisplayName("Chave gerada com sucesso")
-    fun `sucesso ao gerar pix`(){
-    `when`(itauClient.getAccount(clientId = CLIENT_ID.toString(), tipo = "CONTA_CORRENTE"))
-        .thenReturn(HttpResponse.ok(ItauAccountResponse()))
-
-     val response  = SERVICE.register(RegisterRequest.newBuilder()
-             .setAccount(Account.CHECKING)
-             .setClientId(CLIENT_ID.toString())
-             .setValue("rponte@zup.com.br")
-             .setType(Keytype.EMAIL)
-             .build())
-
-      with(response){
-          assertEquals(CLIENT_ID.toString(),clientId)
-          assertNotNull(id)
-      }
-    }
-
- */
-
 
 
     @Test
@@ -187,6 +168,7 @@ internal class PixRegisterEndpointTest(val repository: PixRepository){
                 TitularResponse("Rafael M C Ponte","02467781054")
         )
     }
+
 
 
 }
