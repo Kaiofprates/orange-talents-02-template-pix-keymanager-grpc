@@ -3,6 +3,7 @@ package br.com.orange.find
 import br.com.orange.Account
 import br.com.orange.FindRequest
 import br.com.orange.KeymanagerFindKeyGrpc
+import br.com.orange.find.dto.FindRequestDto
 import br.com.orange.find.dto.PixKeyDto
 import br.com.orange.find.extensions.toResponse
 import br.com.orange.httpClient.bcb.BancoDoBrasilClient
@@ -74,7 +75,7 @@ internal class FindKeyMockTest(
     }
 
     @Test
-    fun `deve retornar sucesso ao retornar chave`(){
+    fun `deve retornar sucesso ao retornar chave no banco central`(){
 
         val testpix = repository.findByPix(pixValue)
 
@@ -84,16 +85,41 @@ internal class FindKeyMockTest(
         Mockito.`when`(bancoDoBrasilClient.findById(pixValue))
             .thenReturn(HttpResponse.ok(pixDetails()))
 
-        val reponse = SERVICE.findById(
+        val response = SERVICE.findById(
             FindRequest.newBuilder()
-            .setPixkey(FindKeyServiceTest.pixValue)
+            .setPixkey(pixValue)
             .build())
 
-        with(reponse){
-            Assertions.assertEquals(reponse.clientId, clientId)
+        with(response){
+            Assertions.assertEquals(response.clientId, clientId)
         }
     }
 
+
+    @Test
+    fun `deve retornar sucesso ao retornar chave`(){
+
+        val testpix = repository.findByPix(pixValue)
+
+        Mockito.`when`(findKeyService.getPix(FindRequestDto(idTest, clientIdTest)))
+            .thenReturn(testpix.get().toResponse())
+
+        Mockito.`when`(bancoDoBrasilClient.findById(pixValue))
+            .thenReturn(HttpResponse.ok(pixDetails()))
+
+        val response = SERVICE.findById(
+            FindRequest.newBuilder()
+                .setPixkey(pixValue)
+                .setPixId(FindRequest.FiltroPorPixId.newBuilder()
+                    .setClientId(clientIdTest)
+                    .setId(idTest)
+                    .build())
+                .build())
+
+        with(response){
+            Assertions.assertEquals(response.clientId, clientId)
+        }
+    }
 
     fun pixDetails(): PixDetailsReponse {
         return PixDetailsReponse(
