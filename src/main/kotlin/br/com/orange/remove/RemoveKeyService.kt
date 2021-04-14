@@ -1,6 +1,5 @@
 package br.com.orange.remove
 
-import br.com.orange.handler.ErrorHandler
 import br.com.orange.httpClient.bcb.BancoDoBrasilClient
 import br.com.orange.httpClient.bcb.DeleteRequest
 import br.com.orange.pix.PixRepository
@@ -14,8 +13,6 @@ import javax.inject.Singleton
 import javax.transaction.Transactional
 import javax.validation.Valid
 
-// TODO: 09/04/2021  fazer esse error handler funcionar ! 
-//@ErrorHandler
 @Singleton
 open class RemoveKeyService(
     @Inject val repository: PixRepository,

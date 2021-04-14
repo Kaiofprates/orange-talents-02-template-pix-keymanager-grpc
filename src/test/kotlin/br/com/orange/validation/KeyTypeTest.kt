@@ -1,13 +1,8 @@
 package br.com.orange.validation
 
-import br.com.orange.Account
-import br.com.orange.Keytype
-import br.com.orange.RegisterRequest
-import br.com.orange.register.PixRegisterEndpointTest
-import io.grpc.Status
-import io.grpc.StatusRuntimeException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments

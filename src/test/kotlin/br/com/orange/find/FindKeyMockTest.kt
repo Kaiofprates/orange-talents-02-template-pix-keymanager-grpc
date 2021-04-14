@@ -60,7 +60,7 @@ internal class FindKeyMockTest(
         val channel = ManagedChannelBuilder.forAddress("localhost", 50051)
             .usePlaintext()
             .build()
-        val SERVICE = KeymanagerFindKeyGrpc.newBlockingStub(channel)
+        val SERVER = KeymanagerFindKeyGrpc.newBlockingStub(channel)
 
     }
 
@@ -85,7 +85,7 @@ internal class FindKeyMockTest(
         Mockito.`when`(bancoDoBrasilClient.findById(pixValue))
             .thenReturn(HttpResponse.ok(pixDetails()))
 
-        val response = SERVICE.findByKey(
+        val response = SERVER.findByKey(
             FindRequest.newBuilder()
             .setPixkey(pixValue)
             .build())
@@ -107,7 +107,7 @@ internal class FindKeyMockTest(
         Mockito.`when`(bancoDoBrasilClient.findById(pixValue))
             .thenReturn(HttpResponse.ok(pixDetails()))
 
-        val response = SERVICE.findByKey(
+        val response = SERVER.findByKey(
             FindRequest.newBuilder()
                 .setPixkey(pixValue)
                 .setPixId(FindRequest.FiltroPorPixId.newBuilder()
