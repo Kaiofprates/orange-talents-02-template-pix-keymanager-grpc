@@ -3,29 +3,26 @@ package br.com.orange.find
 import br.com.orange.Account
 import br.com.orange.FindRequest
 import br.com.orange.KeymanagerFindKeyGrpc
-import br.com.orange.KeymanagerRemoveServiceGrpc
 import br.com.orange.pix.AssocietedAccount
 import br.com.orange.pix.PixKey
 import br.com.orange.pix.PixRepository
-import br.com.orange.remove.PixNotExistsException
-import br.com.orange.remove.RemoveKeyEndpointTest
 import br.com.orange.validation.KeyType
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import java.util.*
 import javax.inject.Inject
 
 
 @MicronautTest(transactional = false)
-internal class FindKeyServiceTest(@Inject val repository: PixRepository, ) {
-
+internal class FindKeyServiceTest(
+    @Inject val repository: PixRepository
+) {
 
     @BeforeEach
     fun setup(){
@@ -110,6 +107,8 @@ internal class FindKeyServiceTest(@Inject val repository: PixRepository, ) {
             assertEquals(it.status.code, Status.NOT_FOUND.code)
         }
     }
-
-
 }
+
+
+
+

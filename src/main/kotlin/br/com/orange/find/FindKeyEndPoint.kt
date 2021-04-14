@@ -27,9 +27,6 @@ class FindKeyEndPoint(@Inject val service: FindKeyService
 
             var pix: FindResponse
 
-
-            println(" Pix id = ${request?.pixId}")
-
             if(request?.pixkey == ""){
                 pix = service.getPix(FindRequestDto(request.pixId.id, request.pixId.clientId))
             } else {
