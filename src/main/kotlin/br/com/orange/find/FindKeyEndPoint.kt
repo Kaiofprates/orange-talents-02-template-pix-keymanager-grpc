@@ -5,13 +5,12 @@ import br.com.orange.FindResponse
 import br.com.orange.KeymanagerFindKeyGrpc
 import br.com.orange.find.dto.FindRequestDto
 import br.com.orange.find.dto.PixKeyDto
-import br.com.orange.remove.PixNotExistsException
-import io.grpc.Status
+import br.com.orange.shared.ErrorHandler
 import io.grpc.stub.StreamObserver
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.validation.ConstraintViolationException
 
+@ErrorHandler
 @Singleton
 class FindKeyEndPoint(@Inject val service: FindKeyService
 ): KeymanagerFindKeyGrpc.KeymanagerFindKeyImplBase() {
@@ -20,10 +19,6 @@ class FindKeyEndPoint(@Inject val service: FindKeyService
         request: FindRequest?,
         responseObserver: StreamObserver<FindResponse>?
     ) {
-
-        try {
-
-            // TODO: 13/04/2021  primeira implementação funcional para a escolha entre as duas formas de pesquisa - REFATORAR (se possível)
 
             var pix: FindResponse
 
@@ -36,15 +31,6 @@ class FindKeyEndPoint(@Inject val service: FindKeyService
             responseObserver?.onNext(pix)
             responseObserver?.onCompleted()
 
-        }catch (error: PixNotExistsException){
-            responseObserver?.onError(Status.NOT_FOUND
-                .withDescription(error.message)
-                .asRuntimeException())
-        }catch (error: ConstraintViolationException){
-            responseObserver?.onError(Status.INVALID_ARGUMENT
-                .withDescription("O id especificado não possui formato válido")
-                .asRuntimeException())
-        }
 
     }
 

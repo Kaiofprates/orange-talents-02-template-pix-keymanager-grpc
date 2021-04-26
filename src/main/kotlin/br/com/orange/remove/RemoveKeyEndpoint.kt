@@ -3,13 +3,13 @@ package br.com.orange.remove
 import br.com.orange.KeymanagerRemoveServiceGrpc
 import br.com.orange.RemoveRequest
 import br.com.orange.RemoveResponse
-import io.grpc.Status
+import br.com.orange.shared.ErrorHandler
 import io.grpc.stub.StreamObserver
 import org.slf4j.LoggerFactory
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.validation.ConstraintViolationException
 
+@ErrorHandler
 @Singleton
 open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): KeymanagerRemoveServiceGrpc.KeymanagerRemoveServiceImplBase() {
 
@@ -18,8 +18,6 @@ open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): Ke
     override fun removepix(request: RemoveRequest?,
                            responseObserver: StreamObserver<RemoveResponse>?) {
 
-
-        try{
             /* passamos por um DTO
             *  para fazer uso das validações
             */
@@ -34,21 +32,6 @@ open class RemoveKeyEndpoint(@Inject val removeKeyService: RemoveKeyService): Ke
                     .build())
 
             responseObserver?.onCompleted()
-
-
-            // TODO: 09/04/2021  substituir por um error handler      
-
-
-        }catch(error: ConstraintViolationException){
-            responseObserver?.onError(Status.INVALID_ARGUMENT
-                    .withDescription(error.message)
-                    .asRuntimeException())
-        }catch (error: PixNotExistsException){
-            responseObserver?.onError(Status.NOT_FOUND
-                    .withDescription(error.message)
-                    .asRuntimeException())
-        }
-
 
     }
 
